@@ -40,13 +40,32 @@
 			</table>
 		</div>
 		<div class="p-3">
-			<form th:action="@{/items/find}" method="get">
+			<form th:action="@{/items/find}" method="get" th:object="${itemForm}">
 				<div class="form-control">
 					<label for="itemId">検索する商品ID</label>
-					<input type="text" id="itemId" name="itemId" class="form-control" placeholder="商品IDを入力" />
+					<input type="text" id="itemId" name="itemId" class="form-control" placeholder="商品IDを入力" th:value="*{itemId}" />
 					<button type="submit" class="btn btn-primary mt-2">検索</button>
 				</div>
 			</form>
+		</div>
+		<div th:if="${itemStock}" class="p-3">
+			<h2>商品詳細</h2>
+			<table class="table table-bordered table-striped">
+				<tbody>
+					<tr>
+						<th>商品ID</th>
+						<td th:text="${itemStock.itemId}"></td>
+					</tr>
+					<tr>
+						<th>商品名</th>
+						<td th:text="${itemStock.itemName}"></td>
+					</tr>
+					<tr>
+						<th>価格</th>
+						<td th:text="${itemStock.stock}"></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.min.js}"></script>

@@ -42,6 +42,10 @@ public class ItemController {
 			mav.setViewName("redirect:/items");
 			return mav;
 		}
+		mav.addObject("stocks", itemService.findStocks());
+		var stock = itemService.findById(Integer.valueOf(itemForm.getItemId()));
+		mav.addObject(stock.orElseThrow(() -> new IllegalStateException("在庫が見つかりませんでした")));
+		mav.setViewName("items/index");
 		return mav;
 	}
 }
