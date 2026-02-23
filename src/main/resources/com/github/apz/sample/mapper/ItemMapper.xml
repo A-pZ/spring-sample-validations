@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.apz.sample.mapper.ItemMapper">
+    <resultMap id="itemResultMap" type="com.github.apz.sample.model.ItemStock">
+        <id property="itemId" column="item_id" />
+        <result property="itemName" column="item_name" />
+        <result property="stock" column="stock" />
+    </resultMap>
+    
+    <select id="findStocks" resultMap="itemResultMap">
+        SELECT 
+          item_id
+          , item_name
+          , stock 
+        FROM 
+          item_stock
+    </select>
+
+    <select id="findById" resultMap="itemResultMap">
+        SELECT 
+          item_id
+          , item_name
+          , stock 
+        FROM 
+          item_stock
+        WHERE
+          item_id = #{itemId}
+    </select>
+</mapper>

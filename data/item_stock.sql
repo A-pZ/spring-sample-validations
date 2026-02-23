@@ -1,0 +1,12 @@
+INSERT INTO item_stock
+(item_id, item_name, stock)
+VALUES(1, '商品A', 10);
+INSERT INTO item_stock
+(item_id, item_name, stock)
+VALUES(2, '商品B', 1);
+INSERT INTO item_stock
+(item_id, item_name, stock)
+VALUES(3, '商品C', 2);
+INSERT INTO item_stock
+(item_id, item_name, stock)
+VALUES(4, '商品D', 4);

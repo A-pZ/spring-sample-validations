@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>商品一覧</title>
+	<link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+	<title>商品一覧</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div th:if="${error}" class="alert alert-danger" role="alert">
+				<p th:text="${error}"></p>
+			</div>
+			<div th:if="${message}" class="alert alert-info" role="alert">
+				<p th:text="${message}"></p>
+			</div>
+		</div>
+		<div class="p-3">
+			<h1>商品一覧</h1>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>商品ID</th>
+						<th>商品名</th>
+						<th>価格</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${stocks}">
+						<td th:text="${item.itemId}"></td>
+						<td th:text="${item.itemName}"></td>
+						<td th:text="${item.stock}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="p-3">
+			<form th:action="@{/items/find}" method="get">
+				<div class="form-control">
+					<label for="itemId">検索する商品ID</label>
+					<input type="text" id="itemId" name="itemId" class="form-control" placeholder="商品IDを入力" />
+					<button type="submit" class="btn btn-primary mt-2">検索</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

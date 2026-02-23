@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spring-sample-validation
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: password 
+    driver-class-name: com.mysql.cj.jdbc.Driver
