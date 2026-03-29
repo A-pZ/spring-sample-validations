@@ -1,7 +1,5 @@
 package com.github.apz.sample.constraints;
 
-import java.util.Objects;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -18,10 +16,6 @@ public class StockExistsValidator implements ConstraintValidator<StockExistsCons
 	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if (Objects.isNull(value)) {
-			return true; // @NotNullでチェックするため、nullは有効とする
-		}
-		
 		try {
 			Integer.valueOf(value);
 		} catch (NumberFormatException e) {

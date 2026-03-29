@@ -5,10 +5,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.apz.sample.constraints.ValidationOrder;
+import com.github.apz.sample.model.ItemStock;
 import com.github.apz.sample.service.ItemService;
 
 import lombok.AllArgsConstructor;
@@ -20,9 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/items")
 public class ItemController {
 	
-	@ModelAttribute("itemForm")
-	public ItemForm itemForm() {
-		return new ItemForm();
+	@ModelAttribute("itemSearchForm")
+	public ItemSearchForm itemSearchForm() {
+		return new ItemSearchForm();
+	}
+	
+	@ModelAttribute("itemRegisterForm")
+	public ItemRegisterForm itemRegisterForm() {
+		return new ItemRegisterForm();
 	}
 	
 	private ItemService itemService;
@@ -34,8 +42,8 @@ public class ItemController {
 		return mav;
 	}
 	
-	@GetMapping("/find")
-	public ModelAndView findBy(ModelAndView mav, @Validated ItemForm itemForm, BindingResult result, RedirectAttributes redirectAttributes) {
+	@GetMapping("/detail")
+	public ModelAndView findBy(ModelAndView mav, @Validated(ValidationOrder.class) ItemSearchForm itemSearchForm, BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			log.info("validation error: {}", result.getAllErrors().get(0).getDefaultMessage());
 			redirectAttributes.addFlashAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
@@ -43,9 +51,23 @@ public class ItemController {
 			return mav;
 		}
 		mav.addObject("stocks", itemService.findStocks());
-		var stock = itemService.findById(Integer.valueOf(itemForm.getItemId()));
+		var stock = itemService.findById(Integer.valueOf(itemSearchForm.getItemId()));
 		mav.addObject(stock.orElseThrow(() -> new IllegalStateException("在庫が見つかりませんでした")));
-		mav.setViewName("items/index");
+		mav.setViewName("items/detail");
 		return mav;
+	}
+	
+	@PostMapping("/register")
+	public ModelAndView register(ModelAndView mav, @Validated ItemRegisterForm itemRegisterForm, BindingResult result, RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			log.info("validation error: {}", result.getAllErrors().get(0).getDefaultMessage());
+			redirectAttributes.addFlashAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
+			mav.setViewName("redirect:/items");
+			return mav;
+		}
+//		var stock = itemService.register(itemRegisterForm.getName(), itemRegisterForm.getPrice());
+		var stock = new ItemStock(1, itemRegisterForm.getName(), 100); // 仮の実装
+		redirectAttributes.addFlashAttribute("success", "商品を登録しました。ID: " + stock.getItemId());
+		mav.setViewName("redirect:/items");		return mav;
 	}
 }
