@@ -3,13 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.apz.sample.mapper.ItemMapper">
-    <resultMap id="itemResultMap" type="com.github.apz.sample.model.ItemStock">
-        <id property="itemId" column="item_id" />
-        <result property="itemName" column="item_name" />
-        <result property="stock" column="stock" />
+    <resultMap id="itemResultMap" type="com.github.apz.sample.model.ItemRecord">
+	    <constructor>
+            <idArg column="item_id" javaType="int"/>
+            <arg column="item_name" javaType="String"/>
+            <arg column="stock" javaType="int"/>
+        </constructor>
     </resultMap>
     
-    <select id="findStocks" resultMap="itemResultMap">
+    <select id="findStocks" resultMap="itemResultMap">    	
         SELECT 
           item_id
           , item_name

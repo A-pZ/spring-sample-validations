@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.github.apz.sample.model.ItemStock;
+import com.github.apz.sample.model.ItemRecord;
 
 @Mapper
 public interface ItemMapper {
-	List<ItemStock> findStocks();
+	List<ItemRecord> findStocks();
 	
-	Optional<ItemStock> findById(Integer itemId);
+	Optional<ItemRecord> findById(Integer itemId);
 }
